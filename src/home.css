@@ -1,0 +1,35 @@
+.custom-btn {
+    height: 45px;
+    padding: .5rem 2rem;
+    border: 1px solid #000;
+    border-radius: 3px;
+    background: #19234F;
+    color: #fff;
+}
+
+.title {
+    font-size: 1.5rem;
+}
+
+.custom-input {
+    width: 30rem;
+    height: 45px;
+    border-radius: 3px;
+    border: transparent;
+    padding: .5rem 1rem;
+    margin: .5rem .5rem;
+}
+
+.custom-input:hover {
+    cursor: pointer;
+}
+
+.align-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+p {
+    color: #384062;
+}
