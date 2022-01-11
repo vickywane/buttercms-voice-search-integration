@@ -1,17 +1,8 @@
 import * as React from "react"
 import AppContext from "../state/app-context"
-import "../home.css"
 
-const container = {
-    background: '#E9ECEF',
-    height: '50vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-}
-
-const RecordingProgress = () => {
-    const { startRecorder, recorderStatus, convertedAudioResult, stopRecorder } = React.useContext(AppContext)
+const AudioRecorder = () => {
+    const { startRecorder, recorderStatus, convertedAudioResult } = React.useContext(AppContext)
 
     return (
         <div className="align-center" >
@@ -29,10 +20,7 @@ const RecordingProgress = () => {
                         </div>
                     </div>
                     :
-                    recorderStatus === "RECORDING" ?
-                        <button className="custom-btn" onClick={() => stopRecorder()} > Stop Recording Audio </button>
-                        :
-                        <button className="custom-btn" onClick={() => startRecorder()} > Try Audio Based Search </button>
+                    <button className="custom-btn" onClick={() => startRecorder()} > Try Audio Based Search </button>
             }
         </div>
     )
@@ -40,10 +28,10 @@ const RecordingProgress = () => {
 
 const Hero = () => {
     const [searchItem, setSearchItem] = React.useState('')
-    const { performTextSearch } = React.useContext(AppContext)
+    const { performTextSearch, recorderStatus } = React.useContext(AppContext)
 
     return (
-        <div style={container} >
+        <div className="hero-container" >
             <div>
                 <div className="mb-5" >
                     <h1 className="text-2xl mb-5 text-center" >
@@ -55,15 +43,20 @@ const Hero = () => {
                     </p>
                 </div>
 
-                <form onSubmit={() => performTextSearch(searchItem)} className="align-center" >
-                    <input className="custom-input" placeholder="Search for a frequent question" value={searchItem} onChange={e => setSearchItem(e.target.value)} />
+                {recorderStatus !== "GENERATING_VOICE_RESULT" &&
+                    (
+                        <form onSubmit={(e) => {
+                            performTextSearch(searchItem)
+                            e.preventDefault()
+                        }} className="align-center" >
+                            <input className="custom-input" placeholder="Search for a frequent question" value={searchItem} onChange={e => setSearchItem(e.target.value)} />
 
-                    <button className="custom-btn" type="submit"> Submit  </button>
-                </form>
-
+                            <button className="custom-btn" type="submit"> Submit  </button>
+                        </form>
+                    )}
                 <br />
 
-                <RecordingProgress />
+                <AudioRecorder />
             </div>
         </div>
     )

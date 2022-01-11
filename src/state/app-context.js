@@ -1,27 +1,18 @@
 import React, { createContext, useReducer } from 'react'
-import { ResultReason, SpeechConfig, AudioConfig, SpeechRecognizer } from 'microsoft-cognitiveservices-speech-sdk'
+import { SpeechConfig, AudioConfig, SpeechRecognizer } from 'microsoft-cognitiveservices-speech-sdk'
 
 const ButterCMS = require('buttercms')(process.env.REACT_APP_BUTTERCMS_TOKEN)
 
 export const initialRecordState = {
+    recorderStatus: "STOPPED",
+    convertedAudioResult: null,
+    recognizerInstance: null,
+    startRecorder: () => {},
+
     connectionError: null,
     searchText: '',
-
     blogPosts: null,
-
-    voiceSearchResult: null,
-    recorderBits: [],
-    recorderInstance: null,
-    recorderStatus: "STOPPED",
-    recorderError: null,
-    recorderMediaStream: null,
-    convertedAudioResult: null,
-
-    recognizerInstance: null,
-
     fetchBlogPosts: () => { },
-    startRecorder: () => { },
-    stopRecorder: () => { },
     dispatch: () => { },
     performTextSearch: () => { }
 };
@@ -45,9 +36,7 @@ const reducer = (state, action) => {
                 ...state,
                 connectionError: payload.errorType,
                 recorderStatus: "STOPPED",
-                recorderMediaStream: null,
-                recorderInstance: null,
-                recorderBits: []
+                recognizerInstance: null
             }
 
         case "COMPLETE_AUDIO_CONVERSION":
@@ -116,8 +105,6 @@ export const AppProvider = ({ children }) => {
                 "page_size": 10
             })
 
-            console.log("SEARCH DATA:", data);
-
             dispatch({
                 type: "SET_BLOG_POSTS",
                 payload: {
@@ -143,8 +130,8 @@ export const AppProvider = ({ children }) => {
 
             handleLoaderState("GENERATING_VOICE_RESULT", dispatch)
 
-            state.recognizerInstance.recognizeOnceAsync(result => {
-                if (result.errorDetails) {
+            state.recognizerInstance.recognizeOnceAsync((result, error) => {
+                if (error) {
                     return dispatch({
                         type: "RECORD_ERROR", payload: {
                             connectionError: result.errorDetails,
@@ -172,25 +159,11 @@ export const AppProvider = ({ children }) => {
         }
     };
 
-    const stopRecorder = async () => {
-        try {
-
-            if (state.recognizerInstance) {
-                state.recognizerInstance.close()
-                state.recognizeInstance = null
-            }
-
-        } catch (e) {
-            console.log("STOP RECORD ERROR", e)
-        }
-    };
-
     return (
         <AppContext.Provider
             value={{
                 ...state,
                 startRecorder,
-                stopRecorder,
                 dispatch,
                 performTextSearch,
                 fetchBlogPosts

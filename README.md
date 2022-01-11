@@ -20,3 +20,9 @@ REACT_APP_SPEECH_SERVICE_KEY=<COGNITIVE_SERVICE_KEY>
 REACT_APP_SPEECH_SERVICE_REGION=<COGNITIVE_SERVICE_REGION>
 REACT_APP_BUTTERCMS_TOKEN=<BUTTERCMS_TOKEN>
 ```
+
+## One last thing 🤫
+
+Please star ( ⭐️ ) this repository if you find this application useful. The stars ( 🌟 ) provide encouragement.
+
+Happy Hacking ✌️ 

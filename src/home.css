@@ -11,6 +11,14 @@
     font-size: 1.5rem;
 }
 
+.hero-container {
+    background: #E9ECEF;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
 .custom-input {
     width: 30rem;
     height: 45px;
