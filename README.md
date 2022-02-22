@@ -2,6 +2,8 @@
 
 This React.js application was designed to be a clone of the FAQ section of the ButterCMS Knowledge Base. It provides a voice search feature by integrating the Microsoft Azure Cognitive Service through the `microsoft-cognitiveservices-speech-sdk` SDK. 
 
+[Read the article](https://buttercms.com/blog/enable-voice-search-using-buttercms-search-api) that explains the steps to build this application.
+
 ## Prequisites
 - Nodejs installed on your computer
 - An Azure account with a Speech Service created
